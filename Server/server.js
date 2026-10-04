@@ -14,15 +14,7 @@ const Admin = require("./routes/admin");
 const Blog = require("./routes/blog");
 
 // Middleware
-const corsOptions = {
-  origin: "https://ai-powered-blog-project-8d98.vercel.app",
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-};
-
-app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
-
+app.use(cors());
 app.use(express.json());
 
 // Test route
