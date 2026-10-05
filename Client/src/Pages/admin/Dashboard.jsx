@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { dashboard_data, blog_data } from "../../assets/assets";
 import { FileText } from "lucide-react";
 import BlogTableItem from "../../Components/admin/BlogTableItem";
 import { useAppContext } from "../../../context/AppContext";
@@ -25,7 +24,7 @@ function Dashboard() {
         toast.error(data.message);
       }
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.response?.data?.message || error.message);
     }
   };
 
@@ -34,58 +33,115 @@ function Dashboard() {
   }, []);
 
   return (
-    <div className="p-5 sm:p-8">
+    <div className="flex-1 min-h-screen bg-blue-50/50 p-3 sm:p-5 md:p-8 overflow-x-hidden">
+
       {/* Dashboard Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 max-w-3xl">
-        <div className="border border-gray-200 rounded-lg p-6 text-center cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
-          <h2 className="text-2xl font-bold text-indigo-600">{blogs}</h2>
-          <p className="text-gray-600 mt-2">Blogs</p>
+      <div className="grid grid-cols-3 gap-2 sm:gap-4 max-w-3xl">
+
+        {/* Blogs */}
+        <div className="bg-white border border-gray-200 rounded-md sm:rounded-lg p-3 sm:p-5 text-center hover:shadow-md transition-all">
+          <h2 className="text-lg sm:text-2xl font-bold text-indigo-600">
+            {blogs}
+          </h2>
+
+          <p className="text-[11px] sm:text-sm text-gray-600 mt-1">
+            Blogs
+          </p>
         </div>
 
-        <div className="border border-gray-200 rounded-lg p-6 text-center cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
-          <h2 className="text-2xl font-bold text-indigo-600">{comments}</h2>
-          <p className="text-gray-600 mt-2">Comments</p>
+        {/* Comments */}
+        <div className="bg-white border border-gray-200 rounded-md sm:rounded-lg p-3 sm:p-5 text-center hover:shadow-md transition-all">
+          <h2 className="text-lg sm:text-2xl font-bold text-indigo-600">
+            {comments}
+          </h2>
+
+          <p className="text-[11px] sm:text-sm text-gray-600 mt-1">
+            Comments
+          </p>
         </div>
 
-        <div className="border border-gray-200 rounded-lg p-6 text-center cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
-          <h2 className="text-2xl font-bold text-indigo-600">{drafts}</h2>
-          <p className="text-gray-600 mt-2">Drafts</p>
+        {/* Drafts */}
+        <div className="bg-white border border-gray-200 rounded-md sm:rounded-lg p-3 sm:p-5 text-center hover:shadow-md transition-all">
+          <h2 className="text-lg sm:text-2xl font-bold text-indigo-600">
+            {drafts}
+          </h2>
+
+          <p className="text-[11px] sm:text-sm text-gray-600 mt-1">
+            Drafts
+          </p>
         </div>
+
       </div>
 
       {/* Latest Blogs Heading */}
-      <div className="flex items-center gap-3 m-4 mt-6 text-gray-600">
-        <FileText size={20} className="text-indigo-600" />
-        <p>Latest Blogs</p>
+      <div className="flex items-center gap-2 mt-6 sm:mt-8 mb-3 sm:mb-4 text-gray-600">
+        <FileText
+          size={18}
+          className="text-indigo-600 sm:w-5 sm:h-5"
+        />
+
+        <p className="text-sm sm:text-base font-medium">
+          Latest Blogs
+        </p>
       </div>
 
       {/* Blog Table */}
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[700px]">
+      <div className="w-full bg-white rounded-lg border border-gray-200 overflow-hidden">
+
+        <table className="w-full table-fixed">
+
           <thead>
-            <tr className="border-b border-gray-200 text-left text-sm text-gray-600">
-              <th className="px-4 py-3">#</th>
-              <th className="px-4 py-3">Blog Title</th>
-              <th className="px-4 py-3 max-sm:hidden">Date</th>
-              <th className="px-4 py-3 max-sm:hidden">Status</th>
-              <th className="px-4 py-3">Actions</th>
+            <tr className="border-b border-gray-200 text-left text-[10px] sm:text-xs md:text-sm text-gray-600">
+
+              <th className="w-[8%] px-2 sm:px-3 md:px-4 py-2 sm:py-3">
+                #
+              </th>
+
+              <th className="w-[42%] px-2 sm:px-3 md:px-4 py-2 sm:py-3">
+                Blog Title
+              </th>
+
+              <th className="w-[18%] px-2 sm:px-3 md:px-4 py-2 sm:py-3 max-sm:hidden">
+                Date
+              </th>
+
+              <th className="w-[15%] px-2 sm:px-3 md:px-4 py-2 sm:py-3 max-sm:hidden">
+                Status
+              </th>
+
+              <th className="w-[32%] sm:w-[17%] px-2 sm:px-3 md:px-4 py-2 sm:py-3">
+                Actions
+              </th>
+
             </tr>
           </thead>
 
           <tbody>
-            {recentBlogs.map((blog, index) => {
-              return (
+            {recentBlogs.length > 0 ? (
+              recentBlogs.map((blog, index) => (
                 <BlogTableItem
                   key={blog._id}
                   blog={blog}
                   fetchBlogs={fetchDashboardData}
                   index={index + 1}
                 />
-              );
-            })}
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan="5"
+                  className="text-center py-6 text-xs sm:text-sm text-gray-500"
+                >
+                  No recent blogs found
+                </td>
+              </tr>
+            )}
           </tbody>
+
         </table>
+
       </div>
+
     </div>
   );
 }
