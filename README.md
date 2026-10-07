@@ -1,8 +1,10 @@
+## Live Demo (https://ai-powered-blog-project-8d98.vercel.app/)
+
 A full-stack AI-powered blogging platform built with the MERN stack, designed to provide a modern environment for creating, managing, and reading blog content. The application combines a React-based frontend with a Node.js and Express backend, while MongoDB is used for persistent data storage.
 
 The platform is designed with a focus on a clean user experience, scalable backend architecture, secure authentication, and modern content management workflows. It also integrates AI capabilities to enhance the blogging experience and includes cloud-based services for handling application assets and authentication.
 
-Key Features
+##Key Features
 
 Full-Stack MERN Architecture — Built using MongoDB, Express.js, React.js, and Node.js.
 
